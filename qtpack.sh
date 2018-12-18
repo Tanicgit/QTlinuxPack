@@ -17,6 +17,7 @@ echo 'echo "err num"' >> $_sh
 echo 'exit' >> $_sh
 echo 'fi'  >> $_sh
 echo 'nowpath=$(pwd)' >> $_sh
+echo 'nowpath=$nowpath"/lib"' >> $_sh
 echo 'export LD_LIBRARY_PATH=$nowpath:$LD_LIBRARY_PATH' >> $_sh
 temp1="./$1 "
 for((i=1;i<=num;i=i+1))
@@ -26,4 +27,7 @@ temp1=$temp2
 done
 echo "$temp1" >> $_sh
 deplist=$(ldd $1 | awk '{if(match($3,"/")){printf("%s " ),$3}}')
-cp $deplist $1 $appName_sh $dir
+lib=$dir"/lib"
+mkdir $lib
+cp $deplist $lib
+cp $1 $appName_sh $dir
